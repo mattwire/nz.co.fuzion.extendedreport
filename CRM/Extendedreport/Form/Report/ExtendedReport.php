@@ -2474,6 +2474,11 @@ WHERE cg.extends IN ('" . implode("','", $this->_customGroupExtends) . "') AND
       }
 
       if ($addFields) {
+        // Add totals field
+        $curFields[$fieldName . '_qty'] = $curFields[$fieldName];
+        $curFields[$fieldName . '_qty']['title'] = "$customDAO->label Quantity";
+        $curFields[$fieldName . '_qty']['statistics'] = array('sum' => ts("Quantity Selected"));
+        // Merge new fields into list
         $this->_columns[$curTable]['fields'] = array_merge($this->_columns[$curTable]['fields'], $curFields);
       }
       if ($this->_customGroupFilters) {
@@ -3452,8 +3457,13 @@ WHERE cg.extends IN ('" . implode("','", $extends) . "') AND
           'Radio'
         ))
         ) {
-          $retValue = $value;
-          $extra = '';
+          if ($htmlType == 'Select' || $htmlType == 'Radio') {
+			$retValue = $fieldValueMap[$customField['option_group_id']][$value];
+		  }
+		  else {
+		    $retValue = $value;
+		  }
+		  $extra = '';
           if (($htmlType == 'Select' || $htmlType == 'Radio') && !empty($entity)) {
             $options = civicrm_api($entity, 'getoptions', array(
               'version' => 3,

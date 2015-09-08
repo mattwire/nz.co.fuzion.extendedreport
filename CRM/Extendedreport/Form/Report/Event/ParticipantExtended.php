@@ -29,6 +29,7 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
    */
   public function __construct() {
     $this->_autoIncludeIndexedFieldsAsOrderBys = 1;
+    $this->_customGroupGroupBy = 1;
 
     // Check if CiviCampaign is a) enabled and b) has active campaigns
     $config = CRM_Core_Config::singleton();
@@ -45,7 +46,7 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
         'fields' => array(
           'sort_name' => array(
             'title' => ts('Participant Name'),
-            'required' => TRUE,
+            //'required' => TRUE,
             'no_repeat' => TRUE,
             'dbAlias' => 'contact_civireport.sort_name',
           ),
@@ -525,9 +526,9 @@ GROUP BY  cv.label
   /**
    * Add group by row.
    */
-  public function groupBy() {
+/*  public function groupBy() {
     $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_participant']}.id";
-  }
+  }*/
 
   /**
    * Alter row display.
