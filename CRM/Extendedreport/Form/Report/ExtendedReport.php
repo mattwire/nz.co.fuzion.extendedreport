@@ -2475,10 +2475,10 @@ WHERE cg.extends IN ('" . implode("','", $this->_customGroupExtends) . "') AND
 
       if ($addFields) {
         // Add totals field
-        $curFields[$fieldName . '_qty'] = $curFields[$fieldName];
+  		$curFields[$fieldName . '_qty'] = $curFields[$fieldName];
         $curFields[$fieldName . '_qty']['title'] = "$customDAO->label Quantity";
-        $curFields[$fieldName . '_qty']['statistics'] = array('sum' => ts("Quantity Selected"));
-        // Merge new fields into list
+        $curFields[$fieldName . '_qty']['statistics'] = array('count' => ts("Quantity Selected"));
+		// Merge new fields into list
         $this->_columns[$curTable]['fields'] = array_merge($this->_columns[$curTable]['fields'], $curFields);
       }
       if ($this->_customGroupFilters) {
@@ -3253,7 +3253,6 @@ LEFT JOIN civicrm_contact {$field['alias']} ON {$field['alias']}.id = {$this->_a
    * @param $rows
    */
   function alterCustomDataDisplay(&$rows) {
-
     // custom code to alter rows having custom values
     if (empty($this->_customGroupExtends) && empty($this->_customGroupExtended)) {
       return;
@@ -3474,6 +3473,7 @@ WHERE cg.extends IN ('" . implode("','", $extends) . "') AND
             $extra = "data-type='select' data-options='" . json_encode($options, JSON_HEX_APOS) . "'";
             $value = $options[$value];
           }
+		  
           if (!empty($entity_field)) {
             //$
             $retValue = "<div id={$entity}-{$entityID} class='crm-entity'>" .
