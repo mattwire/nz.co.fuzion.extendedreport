@@ -6336,15 +6336,18 @@ ON ({$this->_aliases['civicrm_event']}.id = {$this->_aliases['civicrm_participan
    */
   function getCriteriaString() {
     $queryURL = "reset=1&force=1";
-    foreach ($this->_potentialCriteria as $criterion) {
-      $name = $criterion . '_value';
-      $op = $criterion . '_op';
-      if (empty($this->_params[$name])) {
-        continue;
+	
+	if (!empty($this->_potentialCriteria) && is_array($this->_potentialCriteria)) {
+      foreach ($this->_potentialCriteria as $criterion) {
+        $name = $criterion . '_value';
+        $op = $criterion . '_op';
+        if (empty($this->_params[$name])) {
+          continue;
+        }
+        $criterionValue = is_array($this->_params[$name]) ? implode(',', $this->_params[$name]) : $this->_params[$name];
+        $queryURL .= "&{$name}=" . $criterionValue . "&{$op}=" . $this->_params[$op];
       }
-      $criterionValue = is_array($this->_params[$name]) ? implode(',', $this->_params[$name]) : $this->_params[$name];
-      $queryURL .= "&{$name}=" . $criterionValue . "&{$op}=" . $this->_params[$op];
-    }
+	}
     return $queryURL;
   }
   /*
