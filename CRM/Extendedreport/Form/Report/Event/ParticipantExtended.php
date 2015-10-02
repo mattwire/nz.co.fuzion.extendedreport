@@ -118,16 +118,6 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
             'operatorType' => CRM_Report_Form::OP_DATE,
             'type' => CRM_Utils_Type::T_DATE,
           ),
-          'age' => array(
-            'title' => ts('Age'),
-            'operatorType' => CRM_Report_Form::OP_INT,
-            'type' => CRM_Utils_Type::T_INT,
-          ),
-          'age_at_event' => array(
-            'title' => ts('Age at Event'),
-            'operatorType' => CRM_Report_Form::OP_INT,
-            'type' => CRM_Utils_Type::T_INT,
-          ),
         ),
       )),
       'civicrm_email' => array(
@@ -371,6 +361,14 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
           ),
         ),
       ),
+    ) +
+    $this->getColumns('Note') + array(
+      'civicrm_note' => array(
+        'dao' => 'CRM_Core_DAO_Note',
+        'fields' => array(
+          'note' => array('title' => ts('Note')),
+        ),
+      ),
     )
     + $this->getColumns('Relationship', array(
         'fields' => FALSE,
@@ -429,6 +427,8 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
         'title' => ts('Campaign'),
       );
     }
+    
+//DEBUG    CRM_Core_Error::debug('this->_columns', $this->_columns);
 
     $this->_currencyColumn = 'civicrm_participant_fee_currency';
     parent::__construct();
@@ -466,6 +466,7 @@ GROUP BY  cv.label
     return array(
       'event_from_participant',
       'contact_from_participant',
+      'note_from_participant', 
       'phone_from_contact',
       'address_from_contact',
       'email_from_contact',
@@ -511,7 +512,7 @@ GROUP BY  cv.label
             $to = CRM_Utils_Array::value("{$fieldName}_to", $this->_params);
 
             if ($relative || $from || $to) {
-              $clause = $this->dateClause($field['name'], $relative, $from, $to, $field['type']);
+              $clause = $this->dateClause($field['dbAlias'], $relative, $from, $to, $field['type']);
             }
           }
           else {
@@ -679,11 +680,12 @@ GROUP BY  cv.label
 
         $entryFound = TRUE;
       }
-
+	  
       // handle participant registered by
       if (array_key_exists('civicrm_participant_participant_registered_by_id', $row)) {
         if ($value = $row['civicrm_participant_participant_registered_by_id']) {
           $details = CRM_Event_BAO_Participant::participantDetails($value);
+          
         $viewUrl = CRM_Utils_System::url("civicrm/contact/view/participant",
           "reset=1&id=" . $row['civicrm_participant_participant_registered_by_id'] . 
           "&cid=" . $details['cid'] . "&action=view&context=participant"
