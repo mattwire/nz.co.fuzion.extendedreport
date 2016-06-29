@@ -190,10 +190,6 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
           'participant_fee_level' => NULL,
           'participant_fee_amount' => NULL,
           'participant_register_date' => array('title' => ts('Registration Date')),
-          'participant_registered_by_id' => array(
-            'title' => ts('Registered By'),
-            'default' => FALSE,
-            ),
         ),
         'grouping' => 'event-fields',
         'filters' => array(
