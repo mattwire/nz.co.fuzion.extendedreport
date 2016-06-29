@@ -423,8 +423,6 @@ class CRM_Extendedreport_Form_Report_Event_ParticipantExtended extends CRM_Exten
         'title' => ts('Campaign'),
       );
     }
-    
-//DEBUG    CRM_Core_Error::debug('this->_columns', $this->_columns);
 
     $this->_currencyColumn = 'civicrm_participant_fee_currency';
     parent::__construct();
