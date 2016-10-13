@@ -548,13 +548,6 @@ GROUP BY  cv.label
   }
 
   /**
-   * Add group by row.
-   */
-/*  public function groupBy() {
-    $this->_groupBy = "GROUP BY {$this->_aliases['civicrm_participant']}.id";
-  }*/
-
-  /**
    * Alter row display.
    *
    * @param array $rows
