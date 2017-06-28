@@ -2110,7 +2110,7 @@ class CRM_Extendedreport_Form_Report_ExtendedReport extends CRM_Report_Form {
     $defaultTpl = parent::getTemplateFileName();
 
     if (in_array($this->_outputMode, array('print', 'pdf'))) {
-      if ($this->_params['templates']) {
+      if (!empty($this->_params['templates'])) {
         $defaultTpl = 'CRM/Extendedreport/Form/Report/CustomTemplates/' . $this->_params['templates'] . '.tpl';
       }
     }
